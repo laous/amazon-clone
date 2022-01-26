@@ -39,7 +39,7 @@ const Header = () => {
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
           <div className="link relative flex items-center">
-            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 rounded-full text-center text-black font-bold  ">
+            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 rounded-full text-black font-bold  text-center ">
               3
             </span>
             <ShoppingCartIcon className="h-10" />

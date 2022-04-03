@@ -7,21 +7,25 @@ import {
 } from "@heroicons/react/outline";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Header = () => {
   const { data: session } = useSession();
-  console.log(session);
+  const router = useRouter();
   return (
     <header>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2 ">
         <div className="mt-2 flex items-center flex-grow sm:flex-grow-0">
-          <Image
-            src={"https://links.papareact.com/f90"}
-            width="150px"
-            height="40px"
-            objectFit="contain"
-            className="cursor-pointer"
-          />
+          <Link href={"/"}>
+            <Image
+              src={"https://links.papareact.com/f90"}
+              width="150px"
+              height="40px"
+              objectFit="contain"
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
         {/* Search Bar */}
 
@@ -49,8 +53,11 @@ const Header = () => {
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>
           </div>
-          <div className="link relative flex items-center">
-            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 rounded-full text-black font-bold  text-center ">
+          <div
+            className="link relative flex items-center"
+            onClick={() => router.push("/checkout")}
+          >
+            <span className="absolute top-0 right-0 md:right-10 h-4 w-4 bg-yellow-400 rounded-full text-black text-xs font-bold flex justify-center items-center">
               3
             </span>
             <ShoppingCartIcon className="h-10" />

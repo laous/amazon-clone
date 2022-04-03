@@ -1,13 +1,16 @@
 import React from "react";
 import Image from "next/image";
-
 import {
   MenuIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/outline";
 
+import { signIn, signOut, useSession } from "next-auth/react";
+
 const Header = () => {
+  const { data: session } = useSession();
+  console.log(session);
   return (
     <header>
       <div className="flex items-center bg-amazon_blue p-1 flex-grow py-2 ">
@@ -30,10 +33,18 @@ const Header = () => {
           <SearchIcon className="h-12 p-4 cursor-pointer" />
         </div>
         <div className="text-white flex items-center text-s  space-x-6 mx-6 whitespace-nowrap ">
-          <div className="link">
-            <p className="">Hello, Oussama!</p>
-            <p className="font-extrabold md:text-sm">Account & List</p>
-          </div>
+          {session ? (
+            <div className="link" onClick={() => signOut()}>
+              <p className="">Hello, {session.user.name.split(" ")[0]}!</p>
+              <p className="font-extrabold md:text-sm">Account & Lists</p>
+            </div>
+          ) : (
+            <div className="link" onClick={() => signIn()}>
+              <p className="">Sign in!</p>
+              <p className="font-extrabold md:text-sm">Account & Lists</p>
+            </div>
+          )}
+
           <div className="link">
             <p>Returns</p>
             <p className="font-extrabold md:text-sm">& Orders</p>

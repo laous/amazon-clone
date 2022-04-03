@@ -1,10 +1,29 @@
 import React from "react";
 import Currency from "react-currency-formatter";
 import Image from "next/Image";
+import { useDispatch } from "react-redux";
+import { addToBasket } from "../app/slices/basketSlice";
 
 const ProductCard = ({ title, id, image, price, description, category }) => {
   const myLoader = ({ src, width, quality }) => {
     return `${src}`;
+  };
+
+  const dispatch = useDispatch();
+
+  const addItemToBasket = () => {
+    const quantity = 1;
+    const product = {
+      title,
+      id,
+      image,
+      price,
+      description,
+      category,
+      quantity,
+    };
+
+    dispatch(addToBasket(product));
   };
   return (
     <div className="relative flex flex-col m-5 z-30 p-10 bg-white">
@@ -23,7 +42,9 @@ const ProductCard = ({ title, id, image, price, description, category }) => {
       <div className="mb-5">
         <Currency quantity={price * 10} currency="MAD" />
       </div>
-      <button className="button mt-auto">Add to cart</button>
+      <button className="button mt-auto" onClick={() => addItemToBasket()}>
+        Add to cart
+      </button>
     </div>
   );
 };

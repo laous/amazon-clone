@@ -17,7 +17,14 @@ const Checkout = () => {
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   );
 
-  const createCheckoutSession = () => {};
+
+  const createCheckoutSession = () => {
+    const stripe = await stripePromise;
+
+    // call the backend to create the session 
+
+    
+  };
 
   return (
     <div className="bg-gray-100 ">

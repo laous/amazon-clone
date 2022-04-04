@@ -6,11 +6,19 @@ import CheckoutProduct from "../../components/CheckoutProduct";
 import Header from "../../components/Header";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Checkout = () => {
   const items = useSelector(selectItems);
   const total = useSelector(selectTotal);
   const { data: session } = useSession();
+
+  const stripePromise = loadStripe(
+    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  );
+
+  const createCheckoutSession = () => {};
+
   return (
     <div className="bg-gray-100 ">
       <Head>

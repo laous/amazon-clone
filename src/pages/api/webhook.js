@@ -27,7 +27,7 @@ const fulfillOrder = async (session) => {
             amount: session.amount_total /100,
             images:  JSON.parse(session.metadata.images),
             email: session.metadata.email,
-            timeStamo: admin.firestore.FieldValue.serverTimestamp()
+            timestamp: admin.firestore.FieldValue.serverTimestamp()
         })
         .then(() => console.log(`SUCCESS : ORDER ${session.id} ADDED`))
 }

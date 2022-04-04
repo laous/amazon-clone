@@ -40,7 +40,7 @@ const ProductCard = ({ title, id, image, price, description, category }) => {
       <h4 className="my-3 ">{title}</h4>
       <p className="text-xs my-2 line-clamp-2">{description}</p>
       <div className="mb-5">
-        <Currency quantity={price * 10} currency="MAD" />
+        <Currency quantity={price} currency="GBP" />
       </div>
       <button className="button mt-auto" onClick={() => addItemToBasket()}>
         Add to cart

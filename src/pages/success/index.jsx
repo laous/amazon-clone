@@ -1,4 +1,5 @@
 import { CheckCircleIcon } from "@heroicons/react/outline";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import Header from "../../components/Header";
 
@@ -6,6 +7,9 @@ const Success = () => {
   const router = useRouter();
   return (
     <div className="bg-gray-100 h-screen ">
+      <Head>
+        <title>Successful Order</title>
+      </Head>
       <Header />
       <main className="max-w-screen-lg mx-auto">
         <div className="flex flex-col space-y-5 p-10 bg-white">

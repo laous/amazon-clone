@@ -1,27 +1,37 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 export default async function handler(req, res) {
-  if (req.method === 'POST') {
-    try {
-      // Create Checkout Sessions from body params.
-      const session = await stripe.checkout.sessions.create({
-        line_items: [
-          {
-            // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
-            price: '{{PRICE_ID}}',
-            quantity: 1,
-          },
-        ],
-        mode: 'payment',
-        success_url: `${req.headers.origin}/?success=true`,
-        cancel_url: `${req.headers.origin}/?canceled=true`,
-      });
-      res.redirect(303, session.url);
-    } catch (err) {
-      res.status(err.statusCode || 500).json(err.message);
-    }
-  } else {
-    res.setHeader('Allow', 'POST');
-    res.status(405).end('Method Not Allowed');
-  }
+    const {items , email} = req.body
+    const transformedItems = items.map( item => ({
+        description: item.description,
+        quantity:1,
+        price_data:{
+            unit_amount: item.price*100,
+            currency: 'gbp',      
+            product_data:{
+                name:item.title,
+                images :[item.image],
+            },
+        },     
+    }))
+
+    const session = await stripe.checkout.sessions.create({
+        success_url: `${process.env.HOST}/?success=true`,
+        cancel_url: `${process.env.HOST}/?canceled=true`,
+        shipping_address_collection:{
+            allowed_countries:['GB', 'US']
+        },
+        payment_method_types:["card"],
+        line_items:transformedItems,
+        mode:'payment',
+        metadata:{
+            email,
+            images:JSON.stringify(items.map(item => item.image))
+        }
+
+    })
+
+    res.status(200).json({id:session.id})
+
+
 }

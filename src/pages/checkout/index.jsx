@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import Currency from "react-currency-formatter";
 import { useSession } from "next-auth/react";
 import { loadStripe } from "@stripe/stripe-js";
+import axios from "axios";
 
 const Checkout = () => {
   const items = useSelector(selectItems);
@@ -17,13 +18,21 @@ const Checkout = () => {
     process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
   );
 
-
-  const createCheckoutSession = () => {
+  const createCheckoutSession = async () => {
     const stripe = await stripePromise;
 
-    // call the backend to create the session 
+    // call the backend to create the session
+    const checkoutSession = await axios.post("/api/checkout_session", {
+      items: items,
+      email: session.user.email,
+    });
 
-    
+    // redirect user to checkout
+    const result = await stripe.redirectToCheckout({
+      sessionId: checkoutSession.data.id,
+    });
+
+    if (result.error) alert(result.error.message);
   };
 
   return (
@@ -77,6 +86,7 @@ const Checkout = () => {
                   !session &&
                   "from-gray-300 to-gray-500 border-gray-200 text-gray-300 cursor-not-allowed"
                 }`}
+                onClick={createCheckoutSession}
               >
                 {!session ? "Sign in to checkout" : "Proceed to checkout"}
               </button>

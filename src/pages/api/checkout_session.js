@@ -16,8 +16,8 @@ export default async function handler(req, res) {
     }))
 
     const session = await stripe.checkout.sessions.create({
-        success_url: `${process.env.HOST}/?success=true`,
-        cancel_url: `${process.env.HOST}/?canceled=true`,
+        success_url: `${process.env.HOST}/success`,
+        cancel_url: `${process.env.HOST}/canceled`,
         shipping_address_collection:{
             allowed_countries:['GB', 'US']
         },
